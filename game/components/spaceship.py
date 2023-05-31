@@ -20,13 +20,13 @@ class Spaceship(Sprite):
         self.rect.y = self.Y_POS
 
     def update(self, user_input):
-        if user_input[pygame.K_LEFT]:
+        if user_input[pygame.K_LEFT] or user_input[pygame.K_a]:
             self.move_left()
-        elif user_input[pygame.K_RIGHT]:
+        elif user_input[pygame.K_RIGHT] or user_input[pygame.K_d]:
             self.move_right()
-        elif user_input[pygame.K_UP]:
+        elif user_input[pygame.K_UP] or user_input[pygame.K_w]:
             self.move_up()
-        elif user_input[pygame.K_DOWN]:
+        elif user_input[pygame.K_DOWN] or user_input[pygame.K_s]:
             self.move_down()
 
     def move_left(self):
