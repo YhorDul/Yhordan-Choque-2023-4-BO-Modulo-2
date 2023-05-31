@@ -27,5 +27,10 @@ BULLET = pygame.image.load(os.path.join(IMG_DIR, "Bullet/bullet_1.png"))
 BULLET_ENEMY = pygame.image.load(os.path.join(IMG_DIR, "Bullet/bullet_2.png"))
 ENEMY_1 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_1.png"))
 ENEMY_2 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_2.png"))
+ENEMY_3 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_3.png"))
+ENEMY_4 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_4.png"))
+ENEMY_MASTER = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_master.png"))
+
+OVNI = pygame.image.load(os.path.join(IMG_DIR, "Enemy/ovni_chill.png"))
 
 FONT_STYLE = 'freesansbold.ttf'
