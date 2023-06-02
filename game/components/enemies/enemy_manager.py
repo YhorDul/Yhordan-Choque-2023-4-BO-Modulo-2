@@ -18,3 +18,9 @@ class EnemyManager:
         if len(self.enemies) < 1:
             enemy = Enemy()
             self.enemies.append(enemy)
+
+    def eliminate_enemy(self, enemy):
+        self.enemies.remove(enemy)
+
+    def reset(self):
+        self.enemies = []
