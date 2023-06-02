@@ -1,7 +1,7 @@
 
 import pygame
 
-from game.utils.constants import BG, FONT_STYLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
+from game.utils.constants import BG, FONT_STYLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, MENU
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.bullets.bullet_manager import BulletManager
@@ -87,10 +87,15 @@ class Game:
         self.menu.reset_screen_color(self.screen)
         
         if self.death_count > 0:
-            self.menu.update_message('New message')
+            self.menu.update_message('Press Any Key To Start...')
+            self.draw_death()
+            self.score_obtained()
 
-        icon = pygame.transform.scale(ICON, (80, 120))
-        self.screen.blit(icon, (half_screen_width - 50, half_screen_height - 150))
+        icon = pygame.transform.scale(MENU, (600, 367))
+        self.screen.blit(icon, (half_screen_width - 300, half_screen_height - 300))
+
+        shi = pygame.transform.scale(ICON, (80, 150))
+        self.screen.blit(shi, (half_screen_width - 50, half_screen_height + 100))
 
         self.menu.draw(self.screen)
         self.menu.update(self)
@@ -104,4 +109,26 @@ class Game:
         text_rect = text.get_rect()
         text_rect.center = (1000, 50)
         self.screen.blit(text, text_rect)
+
+    def update_deaths(self):
+        self.death_count += 1
+
+    def draw_death(self):
+        font = pygame.font.Font(FONT_STYLE, 30)
+        text = font.render(f'Deaths: {self.death_count}', True, (0, 0, 0))
+        text_rect = text.get_rect()
+        text_rect.center = (550, 350)
+        self.screen.blit(text, text_rect)
+    
+    def score_obtained(self):
+        font = pygame.font.Font(FONT_STYLE, 30)
+        text = font.render(f'Score: {self.score}', True, (0, 0, 0))
+        text_rect = text.get_rect()
+        text_rect.center = (550, 400)
+        self.screen.blit(text, text_rect)
+        
+
+        
+
+
 

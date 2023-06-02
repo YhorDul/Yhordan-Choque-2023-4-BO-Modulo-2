@@ -13,7 +13,7 @@ class BulletManager:
             if bullet.rect.colliderect(game.player.rect) and bullet.owner == 'enemy':
                 self.enemy_bullets.remove(bullet)
                 game.playing = False
-                game.death_count += 1 
+                game.update_deaths() 
                 pygame.time.delay(1000)
                 break
 
