@@ -37,4 +37,10 @@ class Menu:
         self.text_rect = self.text.get_rect()
         self.text_rect.center = (self.HALF_SCREEN_WIDTH, self.HALF_SCREEN_HEIGHT)
 
+    def draw_power(self,screen, message, x = HALF_SCREEN_WIDTH, y = HALF_SCREEN_HEIGHT, color = (0, 0, 0)):
+        text = self.font.render(message,True, color)
+        text_rect = text.get_rect()
+        text_rect.center = (x, y)
+        screen.blit(text, text_rect)
+
    

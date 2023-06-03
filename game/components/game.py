@@ -7,7 +7,7 @@ from game.components.enemies.enemy_manager import EnemyManager
 from game.components.bullets.bullet_manager import BulletManager
 from game.components.enemies.enemy import Enemy
 from game.components.menu import Menu
-
+from game.components.power_ups.power_up_manager import PowerUpManager
 class Game:
     def __init__(self):
         pygame.init()
@@ -27,6 +27,8 @@ class Game:
         self.bullet_manager = BulletManager()
         self.enemy = Enemy()
         self.menu = Menu('Press Any Key To Start...', self.screen)
+        self.highest_score = 0
+        self.power_up_manager = PowerUpManager()
 
     def execute(self):
         self.running = True
@@ -41,6 +43,7 @@ class Game:
         self.score = 0
         self.enemy_manager.reset()
         self.bullet_manager.reset()
+        self.power_up_manager.reset()
         self.playing = True
         while self.playing:
             self.events()
@@ -59,6 +62,7 @@ class Game:
         self.player.update(user_input, self)
         self.enemy_manager.update(self)
         self.bullet_manager.update(self)
+        self.power_up_manager.update(self)
 
     def draw(self):
         self.clock.tick(FPS)
@@ -68,6 +72,8 @@ class Game:
         self.enemy_manager.draw(self.screen)
         self.bullet_manager.draw(self.screen)
         self.draw_score()
+        self.power_up_manager.draw(self.screen)
+        self.draw_power_up_time()
         pygame.display.update()
         pygame.display.flip()
 
@@ -87,21 +93,24 @@ class Game:
         self.menu.reset_screen_color(self.screen)
         
         if self.death_count > 0:
-            self.menu.update_message('Press Any Key To Start...')
+            self.menu.update_message('Game over. Press any key to restart...')
             self.draw_death()
             self.score_obtained()
+            self.highest_scores()
 
         icon = pygame.transform.scale(MENU, (600, 367))
         self.screen.blit(icon, (half_screen_width - 300, half_screen_height - 300))
 
         shi = pygame.transform.scale(ICON, (80, 150))
-        self.screen.blit(shi, (half_screen_width - 50, half_screen_height + 100))
+        self.screen.blit(shi, (half_screen_width - 50, half_screen_height + 150))
 
         self.menu.draw(self.screen)
         self.menu.update(self)
 
     def update_score(self):
         self.score += 1
+        if self.score > self.highest_score:
+            self.highest_score = self.score
 
     def draw_score(self):
         font = pygame.font.Font(FONT_STYLE, 30)
@@ -126,7 +135,24 @@ class Game:
         text_rect = text.get_rect()
         text_rect.center = (550, 400)
         self.screen.blit(text, text_rect)
-        
+
+    def highest_scores(self):
+        font = pygame.font.Font(FONT_STYLE, 30)
+        text = font.render(f'Highest score: {self.highest_score}', True, (0, 0, 0))
+        text_rect = text.get_rect()
+        text_rect.center = (550, 450)
+        self.screen.blit(text, text_rect)
+
+    def draw_power_up_time(self):
+        if self.player.has_power_up:
+            time_to_show = round((self.player.power_time_up - pygame.time.get_ticks()) / 1000, 2)
+
+            if time_to_show >= 0:
+                self.menu.draw_power(self.screen, f'{self.player.power_up_type.capitalize()} is enable for {time_to_show} seconds', 540, 50,(255, 255, 255))
+            else:
+                self.player.has_power_up = False
+                self.player.power_up_type = DEFAULT_TYPE
+                self.player.set_image()
 
         
 
